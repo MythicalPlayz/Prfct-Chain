@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3fb7270fd0fcccf4dbab7027a153169d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 149311
+  packageName: 'Unity Learn | Creator Kit: Puzzle | URP'
+  packageVersion: 3.2.1
+  assetPath: Assets/Creator Kit - Puzzle/Scenes/DefaultScenes/DefaultMenu/LightingData.asset
+  uploadId: 867060

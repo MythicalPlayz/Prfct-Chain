@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ea2ad43ea62f94d44af11b3a7469e4a8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 149311
+  packageName: 'Unity Learn | Creator Kit: Puzzle | URP'
+  packageVersion: 3.2.1
+  assetPath: Assets/Creator Kit - Puzzle/Scenes/ExampleScenes/ExampleMenuSettings.lighting
+  uploadId: 867060
