@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Dependencies")]
     [SerializeField] private Transform ballTarget;
-    [SerializeField] private MonoBehaviour inputReaderMono; // اسحب عنصر NewInputReader هنا
+    [SerializeField] private MonoBehaviour inputReaderMono;
 
     private IInputProvider inputProvider;
     private ICameraMode currentMode;
@@ -24,19 +24,16 @@ public class CameraController : MonoBehaviour
         freeCameraMode = new FreeCameraMode(transform, inputProvider, freeMoveSpeed);
         ballFollowMode = new BallFollowMode(transform, ballTarget, followOffset, smoothTime);
 
-        // الحالة الافتراضية: التحكم الحر
         currentMode = freeCameraMode;
     }
 
     private void Update()
     {
-        // الاستجابة لزرار Simulate
         if (inputProvider.SimulatePressed)
         {
             SwitchToSimulate();
         }
 
-        // تنفيذ الحركة الحالية
         currentMode?.UpdateMode();
     }
 

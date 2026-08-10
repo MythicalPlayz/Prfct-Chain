@@ -16,7 +16,6 @@ public class FreeCameraMode : ICameraMode
     public void UpdateMode()
     {
         Vector2 input = inputProvider.MoveInput;
-        // حركة في الـ X والـ Y فقط بدون دوران
         Vector3 direction = new Vector3(input.x, input.y, 0f);
         cameraTransform.Translate(direction * moveSpeed * Time.deltaTime, Space.World);
     }
