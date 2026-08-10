@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : TriggerableObject
 {
     [Header("Settings")]
     [SerializeField] private float freeMoveSpeed = 10f;
@@ -20,7 +20,6 @@ public class CameraController : MonoBehaviour
     {
         inputProvider = inputReaderMono as IInputProvider;
 
-        // إنشاء الأنماط (Dependency Injection)
         freeCameraMode = new FreeCameraMode(transform, inputProvider, freeMoveSpeed);
         ballFollowMode = new BallFollowMode(transform, ballTarget, followOffset, smoothTime);
 
@@ -29,21 +28,23 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (inputProvider.SimulatePressed)
+        if (inputProvider != null && inputProvider.SimulatePressed)
         {
-            SwitchToSimulate();
+            Trigger();
         }
 
         currentMode?.UpdateMode();
     }
 
-    public void SwitchToSimulate()
+    public override void Trigger()
     {
+        base.Trigger();
         currentMode = ballFollowMode;
     }
 
-    public void SwitchToFree()
+    public override void ResetTrigger()
     {
+        base.ResetTrigger();
         currentMode = freeCameraMode;
     }
 }
