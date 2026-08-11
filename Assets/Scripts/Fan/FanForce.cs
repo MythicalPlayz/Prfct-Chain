@@ -19,8 +19,8 @@ public class FanForce : MonoBehaviour
         }
 
         int colliderCount = Physics.OverlapSphereNonAlloc(
-            transform.position,
-            fanData.Range,
+            transform.position + transform.forward * (fanData.Range * 0.5f),
+            fanData.Range * 0.5f,
             _affectedColliders
         );
 
@@ -35,12 +35,7 @@ public class FanForce : MonoBehaviour
 
             Rigidbody rigidbody = currentCollider.attachedRigidbody;
 
-            if (rigidbody == null)
-            {
-                continue;
-            }
-
-            if (rigidbody.isKinematic)
+            if (rigidbody == null || rigidbody.isKinematic)
             {
                 continue;
             }
@@ -50,30 +45,36 @@ public class FanForce : MonoBehaviour
                 continue;
             }
 
-            Vector3 direction = GetWindDirection(
-                rigidbody.position
-            );
+            if (!IsInFanDirection(rigidbody.position))
+            {
+                continue;
+            }
 
             rigidbody.AddForce(
-                direction * fanData.Force,
+                transform.forward * fanData.Force,
                 ForceMode.Force
             );
         }
     }
 
-    private Vector3 GetWindDirection(Vector3 targetPosition)
+    private bool IsInFanDirection(Vector3 targetPosition)
     {
-        Vector3 direction =
+        Vector3 directionToTarget =
             targetPosition - transform.position;
 
-        direction.y = 0f;
+        directionToTarget.y = 0f;
 
-        if (direction.sqrMagnitude <= 0.001f)
+        if (directionToTarget.sqrMagnitude <= 0.001f)
         {
-            return transform.forward;
+            return true;
         }
 
-        return direction.normalized;
+        float dotProduct = Vector3.Dot(
+            transform.forward,
+            directionToTarget.normalized
+        );
+
+        return dotProduct > 0f;
     }
 
     private void OnDrawGizmosSelected()
@@ -83,9 +84,13 @@ public class FanForce : MonoBehaviour
             return;
         }
 
+        Vector3 center =
+            transform.position +
+            transform.forward * (fanData.Range * 0.5f);
+
         Gizmos.DrawWireSphere(
-            transform.position,
-            fanData.Range
+            center,
+            fanData.Range * 0.5f
         );
 
         Gizmos.DrawRay(
