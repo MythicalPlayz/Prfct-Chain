@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+[DefaultExecutionOrder(1)]
 public class InGameUIHandler : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
