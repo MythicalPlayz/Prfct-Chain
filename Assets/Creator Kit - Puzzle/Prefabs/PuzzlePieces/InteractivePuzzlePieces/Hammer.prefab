@@ -71,8 +71,9 @@ MonoBehaviour:
   activateSound: {fileID: 8300000, guid: 977cb15fc6c15b9449f1a3a77c32ce15, type: 3}
   deactivateSound: {fileID: 8300000, guid: 0b7b06b2c8570d84391bd9bb28dac22d, type: 3}
   puzzleAudioSource: {fileID: 6897608222736033678}
+  m_IsControlable: 1
   physicsComponent: {fileID: 1190716793}
-  power: 5
+  power: 100
 --- !u!33 &1190716797
 MeshFilter:
   m_ObjectHideFlags: 0

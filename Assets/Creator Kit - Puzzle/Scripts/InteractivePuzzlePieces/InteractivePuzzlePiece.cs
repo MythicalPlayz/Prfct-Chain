@@ -16,7 +16,7 @@ public abstract class BaseInteractivePuzzlePiece : MonoBehaviour
     public AudioClip deactivateSound;
     public AudioSource puzzleAudioSource;
 
-    bool m_IsControlable;
+    public bool m_IsControlable;
 
     private void OnEnable()
     {

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SwingHammer : InteractivePuzzlePiece<HingeJoint>
 {
-    [Range(1f, 10f)]
-    public float power = 5f;
-    
+    [Range(10f, 100f)]
+    public float power = 50f;
+
     void Awake ()
     {
         rb.mass = power;
