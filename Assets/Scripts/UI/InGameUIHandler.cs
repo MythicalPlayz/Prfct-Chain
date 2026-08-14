@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [DefaultExecutionOrder(1)]
 public class InGameUIHandler : MonoBehaviour
@@ -8,6 +9,9 @@ public class InGameUIHandler : MonoBehaviour
     [SerializeField] private GameObject inGameMenuUI;
     [SerializeField] private GameObject lvlComMenuUI;
     [SerializeField] private GameObject lvlFailMenuUI;
+
+    [SerializeField] private Button level2Button;
+    [SerializeField] private Button level3Button;
 
     private void OnEnable()
     {
@@ -41,12 +45,28 @@ public class InGameUIHandler : MonoBehaviour
         if (lvlFailMenuUI) lvlFailMenuUI.SetActive(false);
 
         Time.timeScale = 1f;
+
+        CheckLevelButtons();
     }
 
     // Handlers
     private void HandlePauseUI() => SwapPanel(pauseMenuUI, inGameMenuUI);
     private void HandleResumeUI() => SwapPanel(inGameMenuUI, pauseMenuUI);
-    private void HandleLevelCompleteUI() => SwapPanel(lvlComMenuUI, inGameMenuUI);
+    
+    private void HandleLevelCompleteUI()
+    {
+        SwapPanel(lvlComMenuUI, inGameMenuUI);
+
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        int savedUnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        if (currentScene >= savedUnlockedLevel)
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", currentScene + 1);
+            PlayerPrefs.Save();
+        }
+    }
+
     private void HandleLevelFailedUI() => SwapPanel(lvlFailMenuUI, inGameMenuUI);
 
     private void SwapPanel(GameObject panelToActivate, GameObject panelToDeactivate)
@@ -55,7 +75,18 @@ public class InGameUIHandler : MonoBehaviour
         if (panelToActivate != null) panelToActivate.SetActive(true);
     }
 
-    
+
+    private void CheckLevelButtons()
+    {
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        if (level2Button != null) 
+            level2Button.interactable = (unlockedLevel >= 2);
+
+        if (level3Button != null) 
+            level3Button.interactable = (unlockedLevel >= 3);
+    }
+
     public void StartGameSimulation()
     {
         GameManager.Instance.StartSimulation();
@@ -78,6 +109,7 @@ public class InGameUIHandler : MonoBehaviour
         Time.timeScale = 1f;
         SceneTransitionManager.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
 
     public void LoadNextLevel()
     {

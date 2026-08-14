@@ -28,30 +28,39 @@ public class SceneTransitionManager : MonoBehaviour
         StartCoroutine(TransitionRoutine(sceneIndex));
     }
 
-    private IEnumerator TransitionRoutine(int sceneIndex)
+    public void Exit()
     {
-        float timer = 0f;
-        while (timer < fadeDuration)
-        {
-            timer += Time.unscaledDeltaTime;
-            fadeCanvasGroup.alpha = Mathf.Lerp(0f, 1f, timer / fadeDuration);
-            yield return null;
-        }
-        fadeCanvasGroup.alpha = 1f;
-
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-
-        timer = 0f;
-        while (timer < fadeDuration)
-        {
-            timer += Time.unscaledDeltaTime;
-            fadeCanvasGroup.alpha = Mathf.Lerp(1f, 0f, timer / fadeDuration);
-            yield return null;
-        }
-        fadeCanvasGroup.alpha = 0f;
+        Application.Quit();
     }
+
+private IEnumerator TransitionRoutine(int sceneIndex)
+{
+    if (fadeCanvasGroup != null) fadeCanvasGroup.blocksRaycasts = true;
+
+    float timer = 0f;
+    while (timer < fadeDuration)
+    {
+        timer += Time.unscaledDeltaTime;
+        fadeCanvasGroup.alpha = Mathf.Lerp(0f, 1f, timer / fadeDuration);
+        yield return null;
+    }
+    fadeCanvasGroup.alpha = 1f;
+
+    AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+    while (!asyncLoad.isDone)
+    {
+        yield return null;
+    }
+
+    timer = 0f;
+    while (timer < fadeDuration)
+    {
+        timer += Time.unscaledDeltaTime;
+        fadeCanvasGroup.alpha = Mathf.Lerp(1f, 0f, timer / fadeDuration);
+        yield return null;
+    }
+    fadeCanvasGroup.alpha = 0f;
+
+    if (fadeCanvasGroup != null) fadeCanvasGroup.blocksRaycasts = false;
+}
 }
