@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 [DefaultExecutionOrder(1)]
 public class InGameUIHandler : MonoBehaviour
 {
@@ -8,65 +10,86 @@ public class InGameUIHandler : MonoBehaviour
     [SerializeField] private GameObject lvlComMenuUI;
     [SerializeField] private GameObject lvlFailMenuUI;
 
+    [SerializeField] private Button level2Button;
+    [SerializeField] private Button level3Button;
+
     private void OnEnable()
     {
-        UIInstance.Instance.onPauseScene += () => SwapPanel(pauseMenuUI, inGameMenuUI);
-        UIInstance.Instance.onResumeScene += () => SwapPanel(inGameMenuUI, pauseMenuUI);
-        UIInstance.Instance.onReloadScene += () => LoadScene();
-        UIInstance.Instance.onLoadScene += (sceneIndex) => LoadScene(sceneIndex);
-        UIInstance.Instance.onLevelComplete += () => SwapPanel(lvlComMenuUI, inGameMenuUI);
-        UIInstance.Instance.onLevelFailed += () => SwapPanel(lvlFailMenuUI, inGameMenuUI);
+        if (UIInstance.Instance == null) return;
+
+        UIInstance.Instance.onPauseScene += HandlePauseUI;
+        UIInstance.Instance.onResumeScene += HandleResumeUI;
+        UIInstance.Instance.onReloadScene += ReloadCurrentScene;
+        UIInstance.Instance.onLoadScene += LoadSceneByIndex;
+        UIInstance.Instance.onLevelComplete += HandleLevelCompleteUI;
+        UIInstance.Instance.onLevelFailed += HandleLevelFailedUI;
     }
 
     private void OnDisable()
     {
-        UIInstance.Instance.onPauseScene -= () => SwapPanel(pauseMenuUI, inGameMenuUI);
-        UIInstance.Instance.onResumeScene -= () => SwapPanel(inGameMenuUI, pauseMenuUI);
-        UIInstance.Instance.onReloadScene -= () => LoadScene();
-        UIInstance.Instance.onLoadScene -= (sceneIndex) => LoadScene(sceneIndex);
-        UIInstance.Instance.onLevelComplete -= () => SwapPanel(lvlComMenuUI, inGameMenuUI);
-        UIInstance.Instance.onLevelFailed -= () => SwapPanel(lvlFailMenuUI, inGameMenuUI);
+        if (UIInstance.Instance == null) return;
+
+        UIInstance.Instance.onPauseScene -= HandlePauseUI;
+        UIInstance.Instance.onResumeScene -= HandleResumeUI;
+        UIInstance.Instance.onReloadScene -= ReloadCurrentScene;
+        UIInstance.Instance.onLoadScene -= LoadSceneByIndex;
+        UIInstance.Instance.onLevelComplete -= HandleLevelCompleteUI;
+        UIInstance.Instance.onLevelFailed -= HandleLevelFailedUI;
     }
 
     private void Start()
     {
-        // Ensure the in-game menu is active at the start
-        inGameMenuUI.SetActive(true);
-        pauseMenuUI.SetActive(false);
-        lvlComMenuUI.SetActive(false);
-        lvlFailMenuUI.SetActive(false);
+        SwapPanel(inGameMenuUI, null);
+        if (pauseMenuUI) pauseMenuUI.SetActive(false);
+        if (lvlComMenuUI) lvlComMenuUI.SetActive(false);
+        if (lvlFailMenuUI) lvlFailMenuUI.SetActive(false);
 
-        // Ensure that the game is not paused at the start
         Time.timeScale = 1f;
+
+        CheckLevelButtons();
     }
 
-    // Swap Panel
-    // swaps two panels
+    // Handlers
+    private void HandlePauseUI() => SwapPanel(pauseMenuUI, inGameMenuUI);
+    private void HandleResumeUI() => SwapPanel(inGameMenuUI, pauseMenuUI);
+    
+    private void HandleLevelCompleteUI()
+    {
+        SwapPanel(lvlComMenuUI, inGameMenuUI);
+
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        int savedUnlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        if (currentScene >= savedUnlockedLevel)
+        {
+            PlayerPrefs.SetInt("UnlockedLevel", currentScene + 1);
+            PlayerPrefs.Save();
+        }
+    }
+
+    private void HandleLevelFailedUI() => SwapPanel(lvlFailMenuUI, inGameMenuUI);
+
     private void SwapPanel(GameObject panelToActivate, GameObject panelToDeactivate)
     {
-        if (panelToActivate != null)
-        {
-            panelToActivate.SetActive(true);
-        }
-        if (panelToDeactivate != null)
-        {
-            panelToDeactivate.SetActive(false);
-        }
+        if (panelToDeactivate != null) panelToDeactivate.SetActive(false);
+        if (panelToActivate != null) panelToActivate.SetActive(true);
     }
 
-    // Load Scene
-    // if no parameter is passed, it will reload the current scene
-    // if a parameter is passed, it will load the scene with that index
-    private void LoadScene(int senceIndex = -1)
+
+    private void CheckLevelButtons()
     {
-        if (senceIndex < 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-        else
-        {
-            SceneManager.LoadScene(senceIndex);
-        }
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        if (level2Button != null) 
+            level2Button.interactable = (unlockedLevel >= 2);
+
+        if (level3Button != null) 
+            level3Button.interactable = (unlockedLevel >= 3);
+    }
+
+    public void StartGameSimulation()
+    {
+        GameManager.Instance.StartSimulation();
     }
 
     public void PauseGame()
@@ -81,15 +104,29 @@ public class InGameUIHandler : MonoBehaviour
         UIInstance.Instance.onResumeScene?.Invoke();
     }
 
-    public void ReloadScene()
+    public void ReloadCurrentScene()
     {
         Time.timeScale = 1f;
-        UIInstance.Instance.onReloadScene?.Invoke();
+        SceneTransitionManager.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoadIntoAnotherScene(int sceneIndex)
+
+    public void LoadNextLevel()
     {
         Time.timeScale = 1f;
-        UIInstance.Instance.onLoadScene?.Invoke(sceneIndex);
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneTransitionManager.Instance.LoadScene(nextSceneIndex);
+    }
+
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneTransitionManager.Instance.LoadScene(0);
+    }
+
+    public void LoadSceneByIndex(int sceneIndex)
+    {
+        Time.timeScale = 1f;
+        SceneTransitionManager.Instance.LoadScene(sceneIndex);
     }
 }

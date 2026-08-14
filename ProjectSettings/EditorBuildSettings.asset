@@ -6,10 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Creator Kit - Puzzle/Scenes/UserCreated/newMenu.unity
-    guid: 1b6d97f0d4b582648b359e9f0d7ab90b
+    path: Assets/Scenes/MenuUI_Ahmed.unity
+    guid: fe0c2c73cd5e2fd44aeb75c79f6c6eb2
   - enabled: 1
-    path: Assets/Creator Kit - Puzzle/Scenes/UserCreated/newLevel 1.unity
-    guid: 93d988015c408394899cefc7c5be3bc7
+    path: Assets/Scenes/Levels/Level Selection.unity
+    guid: a90f1bfe0d432f04bab00690fb633ee7
+  - enabled: 1
+    path: Assets/Scenes/Levels/Tutorial.unity
+    guid: 0a214d542a5941a4b9ed4390cee29a03
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 1.unity
+    guid: fe52a445538d11d418a3710caa1b1a97
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 2.unity
+    guid: cfd00f53f9e11794db480f2388446b76
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 3.unity
+    guid: b2d4efa5649a1a944a3a9caef65c79f8
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
