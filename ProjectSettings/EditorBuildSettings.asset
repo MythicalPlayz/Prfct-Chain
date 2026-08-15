@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MenuUI_Ahmed.unity
+    path: Assets/Scenes/Levels/MenuUI.unity
     guid: fe0c2c73cd5e2fd44aeb75c79f6c6eb2
   - enabled: 1
     path: Assets/Scenes/Levels/Level Selection.unity
     guid: a90f1bfe0d432f04bab00690fb633ee7
   - enabled: 1
-    path: Assets/Scenes/Levels/Tutorials.unity
+    path: Assets/Scenes/Levels/Tutorial.unity
     guid: 45862b9d5595cd849937e17ea5cbfb74
   - enabled: 1
     path: Assets/Scenes/Levels/Level 1.unity
