@@ -29,8 +29,8 @@ public class Inventory : MonoBehaviour
     }
 
     public event Action<int> SlotSelected;
-
     public event Action<int, int> ItemAmountChanged;
+    public event Action InventoryChanged;
 
     private void Awake()
     {
@@ -43,22 +43,12 @@ public class Inventory : MonoBehaviour
 
         if (inventoryData == null)
         {
-            Debug.LogError(
-                "Inventory: InventoryData is missing.",
-                this
-            );
-
+            Debug.LogError("Inventory: InventoryData is missing.", this);
             return;
         }
 
-        foreach (InventoryData.InventorySlotData slotData
-                 in inventoryData.Slots)
+        foreach (InventoryData.InventorySlotData slotData in inventoryData.Slots)
         {
-            if (slotData.Item == null)
-            {
-                continue;
-            }
-
             _slots.Add(
                 new InventorySlot(
                     slotData.Item,
@@ -71,13 +61,6 @@ public class Inventory : MonoBehaviour
     public bool SelectSlot(int slotIndex)
     {
         if (!IsValidSlotIndex(slotIndex))
-        {
-            return false;
-        }
-
-        InventorySlot slot = _slots[slotIndex];
-
-        if (slot.IsEmpty)
         {
             return false;
         }
@@ -118,6 +101,8 @@ public class Inventory : MonoBehaviour
             slot.Amount
         );
 
+        InventoryChanged?.Invoke();
+
         return true;
     }
 
@@ -138,13 +123,16 @@ public class Inventory : MonoBehaviour
     }
 }
 
+
+[Serializable]
 public class InventorySlot
 {
     public InventoryItemData Item { get; }
 
     public int Amount { get; private set; }
 
-    public bool IsEmpty => Amount <= 0;
+    public bool IsEmpty =>
+        Item == null || Amount <= 0;
 
     public InventorySlot(
         InventoryItemData item,

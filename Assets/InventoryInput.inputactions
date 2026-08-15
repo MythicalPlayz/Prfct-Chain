@@ -1,0 +1,115 @@
+{
+    "version": 1,
+    "name": "InventoryInput",
+    "maps": [
+        {
+            "name": "Inventory",
+            "id": "a26d34e3-ff66-42a3-be82-9a7a91d02ef2",
+            "actions": [
+                {
+                    "name": "slot1",
+                    "type": "Button",
+                    "id": "f305a4d9-641a-433a-b3e2-6eab7263e32c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slot2",
+                    "type": "Button",
+                    "id": "8cddb9e2-8049-4cc4-a502-1a4fe6ba9b6d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slot3",
+                    "type": "Button",
+                    "id": "56494141-3b41-4213-b052-79a258749158",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slot4",
+                    "type": "Button",
+                    "id": "73739e79-0143-4bd1-811f-fabc98a27828",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slot5",
+                    "type": "Button",
+                    "id": "df348a54-2641-4786-a62f-fb580a32f8c6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "370aa4d9-d23b-4391-9dc4-3869134dc19d",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92fa0d88-511d-42aa-9549-cae487bb3d29",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d8d83006-0af0-450c-a960-9e4ab27f05a8",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e199094e-6ede-4d75-99ba-95a72bb897d1",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0b43173-2112-4fc2-8b8d-6496f4e1f3c9",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slot5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
