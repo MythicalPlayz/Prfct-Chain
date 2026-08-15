@@ -7,6 +7,11 @@ public class CameraController : TriggerableObject
     [SerializeField] private float smoothTime = 0.3f;
     [SerializeField] private Vector3 followOffset = new Vector3(0, 2, -5);
 
+    [Header("Y-Axis Limits")]
+    [SerializeField] private bool useYLimits = true;
+    [SerializeField] private float topYLimit = 10f;
+    [SerializeField] private float bottomYLimit = -2f;
+
     [Header("Dependencies")]
     [SerializeField] private Transform ballTarget;
     [SerializeField] private MonoBehaviour inputReaderMono;
@@ -36,6 +41,14 @@ public class CameraController : TriggerableObject
         currentMode?.UpdateMode();
     }
 
+    private void LateUpdate()
+    {
+        if (useYLimits)
+        {
+            ClampCameraYPosition();
+        }
+    }
+
     public override void Trigger()
     {
         base.Trigger();
@@ -46,5 +59,14 @@ public class CameraController : TriggerableObject
     {
         base.ResetTrigger();
         currentMode = freeCameraMode;
+    }
+
+    private void ClampCameraYPosition()
+    {
+        Vector3 clampedPosition = transform.position;
+
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, bottomYLimit, topYLimit);
+
+        transform.position = clampedPosition;
     }
 }
