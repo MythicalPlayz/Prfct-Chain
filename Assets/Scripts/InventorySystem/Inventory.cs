@@ -121,6 +121,23 @@ public class Inventory : MonoBehaviour
         return slotIndex >= 0 &&
                slotIndex < _slots.Count;
     }
+
+    // --- MOVED THIS HERE ---
+    public void SwapSlots(int index1, int index2)
+    {
+        // Safety check to prevent out-of-bounds errors
+        if (!IsValidSlotIndex(index1) || !IsValidSlotIndex(index2)) return;
+
+        // Temporarily store the first slot's data
+        InventorySlot temp = _slots[index1];
+
+        // Swap them in the backend list
+        _slots[index1] = _slots[index2];
+        _slots[index2] = temp;
+
+        // Let the rest of the game know the inventory updated
+        InventoryChanged?.Invoke();
+    }
 }
 
 

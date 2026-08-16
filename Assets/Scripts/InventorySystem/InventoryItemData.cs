@@ -13,7 +13,12 @@ public class InventoryItemData : ScriptableObject
 
     [SerializeField] private Sprite icon;
 
+    [Header("Placement Settings")]
+    [SerializeField] private float spawnYRotation = 0f;
+
     public string ItemName => itemName;
     public GameObject Prefab => prefab;
     public Sprite Icon => icon;
+
+    public float SpawnYRotation => spawnYRotation;
 }

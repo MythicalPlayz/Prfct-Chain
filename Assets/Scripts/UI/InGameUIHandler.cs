@@ -78,13 +78,13 @@ public class InGameUIHandler : MonoBehaviour
 
     private void CheckLevelButtons()
     {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        //int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
-        if (level2Button != null) 
-            level2Button.interactable = (unlockedLevel >= 2);
+        //if (level2Button != null) 
+        //    level2Button.interactable = (unlockedLevel >= 2);
 
-        if (level3Button != null) 
-            level3Button.interactable = (unlockedLevel >= 3);
+        //if (level3Button != null) 
+        //    level3Button.interactable = (unlockedLevel >= 3);
     }
 
     public void StartGameSimulation()

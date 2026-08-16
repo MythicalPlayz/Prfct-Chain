@@ -77,8 +77,8 @@ public class GameManager : MonoBehaviour
 
     private void GameFail()
     {
-        Time.timeScale = 0f;
         UIInstance.Instance?.onLevelFailed?.Invoke();
+        Time.timeScale = 0f;
     }
 
     private void GameWin()
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
         isGameOver = true;
 
-        Time.timeScale = 0f;
         UIInstance.Instance?.onLevelComplete?.Invoke();
+        Time.timeScale = 0f;
     }
 }
